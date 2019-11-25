@@ -1,5 +1,6 @@
 package pages;
 
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,9 +28,21 @@ public class BaseFunc {
         Select select = new Select(browser.findElement(locator));
         select.deselectByVisibleText(text);
     }
-    public void clickOn() {
+    public void clickOn(By locator) {
         Actions action = new Actions(browser);
-        WebElement button = browser.findElement(By.xpath());
+        WebElement button = browser.findElement(locator);
         action.click(button).perform();
+    }
+    public boolean isElementPresent(By locator){
+        return browser.findElements(locator).isEmpty();
+    }
+    public void type(By locator, String text) {
+        Assertions.assertFalse(isElementPresent(locator), "No element here");
+        WebElement we = browser.findElement(locator);
+        WebElement.clear();
+        we.sendKeys(text);
+    }
+    public void closeBrowser() {
+        browser.close();
     }
 }
